@@ -248,6 +248,7 @@ public class SimpleActivity extends Activity {
             return position;
         }
 
+        //创建每个子项的视图
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
@@ -262,17 +263,18 @@ public class SimpleActivity extends Activity {
             holder.iv_icon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(SimpleActivity.this, "iv_icon_click", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SimpleActivity.this, "点击了图标", Toast.LENGTH_SHORT).show();
                 }
             });
             holder.tv_name.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(SimpleActivity.this,"iv_icon_click",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SimpleActivity.this,"点击了标题",Toast.LENGTH_SHORT).show();
                 }
             });
             return convertView;
         }
+
 
         class ViewHolder {
             ImageView iv_icon;
@@ -285,6 +287,9 @@ public class SimpleActivity extends Activity {
             }
         }
 
+        /**
+         根据位置奇数位置 可以滑动删除 ,偶数位置不可以滑动删除
+         */
         @Override
         public boolean getSwipEnableByPosition(int position) {
             if(position % 2 == 0){
