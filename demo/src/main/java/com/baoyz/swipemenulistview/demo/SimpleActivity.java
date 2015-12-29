@@ -57,20 +57,29 @@ import java.util.List;
  */
 public class SimpleActivity extends Activity {
 
+    //存放手机应用的list集合
     private List<ApplicationInfo> mAppList;
+
+    //填充list集合的适配器
     private AppAdapter mAdapter;
+
+    //自定义的可滑动删除的listview
     private SwipeMenuListView mListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-
-        mAppList = getPackageManager().getInstalledApplications(0);
-
         mListView = (SwipeMenuListView) findViewById(R.id.listView);
 
+
+        //集合初始化
+        mAppList = getPackageManager().getInstalledApplications(0);
+
+        //适配器初始化
         mAdapter = new AppAdapter();
+
+        //listview 设置适配器
         mListView.setAdapter(mAdapter);
 
         // step 1. create a MenuCreator
@@ -161,7 +170,9 @@ public class SimpleActivity extends Activity {
         // other setting
 //		listView.setCloseInterpolator(new BounceInterpolator());
 
-        // test item long click
+        /**
+         * 长时间点击事件
+         */
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
             @Override
@@ -174,6 +185,10 @@ public class SimpleActivity extends Activity {
 
     }
 
+    /**
+     *
+     * 删除应用操作
+     */
     private void delete(ApplicationInfo item) {
         // delete app
         try {
@@ -184,8 +199,10 @@ public class SimpleActivity extends Activity {
         }
     }
 
+    /**
+      打开应用操作
+     */
     private void open(ApplicationInfo item) {
-        // open app
         Intent resolveIntent = new Intent(Intent.ACTION_MAIN, null);
         resolveIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         resolveIntent.setPackage(item.packageName);
@@ -206,18 +223,26 @@ public class SimpleActivity extends Activity {
         }
     }
 
+
+
+    /**
+     * 适配器
+     */
     class AppAdapter extends BaseSwipListAdapter {
 
+        //集合的大小
         @Override
         public int getCount() {
             return mAppList.size();
         }
 
+        //根据子项的位置获取改位置的内容
         @Override
         public ApplicationInfo getItem(int position) {
             return mAppList.get(position);
         }
 
+        //返回子项的位置
         @Override
         public long getItemId(int position) {
             return position;
