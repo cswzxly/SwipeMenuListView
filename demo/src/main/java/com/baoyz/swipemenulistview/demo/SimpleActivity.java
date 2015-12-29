@@ -301,19 +301,25 @@ public class SimpleActivity extends Activity {
     }
 
     /**
-     * 设置子项的中的 删除 ,获取其他操作的 宽度
+     * 设置子项中的 删除 ,获取其他操作的 宽度
      */
     private int dp2px(int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
                 getResources().getDisplayMetrics());
     }
 
+    /**
+     创建带菜单按钮的 activity
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
+    /**
+       选中 right 或者 left 改变滑动的方向
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
