@@ -82,58 +82,65 @@ public class SimpleActivity extends Activity {
         //listview 设置适配器
         mListView.setAdapter(mAdapter);
 
-        // step 1. create a MenuCreator
+        /**
+         * 创建每个子项滑出 来的 部分
+         */
         SwipeMenuCreator creator = new SwipeMenuCreator() {
 
             @Override
             public void create(SwipeMenu menu) {
-                // create "open" item
+
+                /**
+                 * 创建 子项的 open 操作
+                 */
                 SwipeMenuItem openItem = new SwipeMenuItem(
                         getApplicationContext());
-                // set item background
                 openItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9,
                         0xCE)));
-                // set item width
                 openItem.setWidth(dp2px(90));
-                // set item title
-                openItem.setTitle("Open");
-                // set item title fontsize
+                openItem.setTitle("打开");
                 openItem.setTitleSize(18);
-                // set item title font color
                 openItem.setTitleColor(Color.WHITE);
-                // add to menu
                 menu.addMenuItem(openItem);
 
-                // create "delete" item
+                /**
+                 * 创建 子项的 删除操作
+                 */
                 SwipeMenuItem deleteItem = new SwipeMenuItem(
                         getApplicationContext());
-                // set item background
                 deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
                         0x3F, 0x25)));
-                // set item width
                 deleteItem.setWidth(dp2px(90));
-                // set a icon
                 deleteItem.setIcon(R.drawable.ic_delete);
-                // add to menu
                 menu.addMenuItem(deleteItem);
             }
         };
-        // set creator
+
+        /**
+         * 将 滑出 来的部分 添加 到 自定义的 listview 中
+         */
         mListView.setMenuCreator(creator);
 
-        // step 2. listener item click event
+        /**
+         * 给 每个 子项 滑出来的 各种 操作添加 点击监听
+         */
         mListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
                 ApplicationInfo item = mAppList.get(position);
                 switch (index) {
                     case 0:
-                        // open
+                        /**
+                         * 打开应用
+                         */
                         open(item);
                         break;
                     case 1:
-                        // delete
-//					delete(item);
+                        /**
+                         * 删除该应用
+                         */
+
+                        delete(item);
                         mAppList.remove(position);
                         mAdapter.notifyDataSetChanged();
                         break;
@@ -167,9 +174,6 @@ public class SimpleActivity extends Activity {
             }
         });
 
-        // other setting
-//		listView.setCloseInterpolator(new BounceInterpolator());
-
         /**
          * 长时间点击事件
          */
@@ -186,11 +190,9 @@ public class SimpleActivity extends Activity {
     }
 
     /**
-     *
      * 删除应用操作
      */
     private void delete(ApplicationInfo item) {
-        // delete app
         try {
             Intent intent = new Intent(Intent.ACTION_DELETE);
             intent.setData(Uri.fromParts("package", item.packageName, null));
@@ -200,7 +202,7 @@ public class SimpleActivity extends Activity {
     }
 
     /**
-      打开应用操作
+     * 打开应用操作
      */
     private void open(ApplicationInfo item) {
         Intent resolveIntent = new Intent(Intent.ACTION_MAIN, null);
@@ -222,7 +224,6 @@ public class SimpleActivity extends Activity {
             startActivity(intent);
         }
     }
-
 
 
     /**
@@ -269,7 +270,7 @@ public class SimpleActivity extends Activity {
             holder.tv_name.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(SimpleActivity.this,"点击了标题",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SimpleActivity.this, "点击了标题", Toast.LENGTH_SHORT).show();
                 }
             });
             return convertView;
@@ -288,17 +289,20 @@ public class SimpleActivity extends Activity {
         }
 
         /**
-         根据位置奇数位置 可以滑动删除 ,偶数位置不可以滑动删除
+         * 根据位置奇数位置 可以滑动删除 ,偶数位置不可以滑动删除
          */
         @Override
         public boolean getSwipEnableByPosition(int position) {
-            if(position % 2 == 0){
+          /*  if (position % 2 == 0) {
                 return false;
-            }
+            }*/
             return true;
         }
     }
 
+    /**
+     * 设置子项的中的 删除 ,获取其他操作的 宽度
+     */
     private int dp2px(int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
                 getResources().getDisplayMetrics());
